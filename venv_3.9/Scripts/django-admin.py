@@ -1,4 +1,4 @@
-#!C:\pythonProject\pythonProject\pokemon_map\venv_3.9\Scripts\python.exe
+#!c:\users\asus fx506l\documents\github\pokemon_map\venv_3.9\scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
