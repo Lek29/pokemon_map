@@ -14,9 +14,16 @@ class PokemonEntity(models.Model):
     appeared_at = models.DateTimeField( blank=True, null=True)
     disappeared_at = models.DateTimeField( blank=True, null=True)
 
+    level = models.IntegerField(default=1)
+    helth = models.IntegerField(blank=True, null=True)
+    strength = models.IntegerField(blank=True, null=True)
+    defence = models.IntegerField(blank=True, null=True)
+    stamina = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.pokemon.title} at {self.latitude}, {self.longitude}'
+    
+
     
 
 
