@@ -28,15 +28,15 @@ def add_pokemon(folium_map, lat, lon, image_url=DEFAULT_IMAGE_URL):
 
 
 def show_all_pokemons(request):
-    with open('pokemon_entities/pokemons.json', encoding='utf-8') as database:
-        pokemons = json.load(database)['pokemons']
+    # with open('pokemon_entities/pokemons.json', encoding='utf-8') as database:
+    #     pokemons = json.load(database)['pokemons']
 
-    pokemon_coords = {}
-    for pokemon in pokemons:
-        pokemon_id = pokemon['pokemon_id']
-        if pokemon['entities']:
-            first_entities = pokemon['entities'][0]
-            pokemon_coords[pokemon_id] = (first_entities['lat'], first_entities['lon'])
+    # pokemon_coords = {}
+    # for pokemon in pokemons:
+    #     pokemon_id = pokemon['pokemon_id']
+    #     if pokemon['entities']:
+    #         first_entities = pokemon['entities'][0]
+    #         pokemon_coords[pokemon_id] = (first_entities['lat'], first_entities['lon'])
     
     pokemons_from_bd = Pokemon.objects.all()
 
@@ -49,8 +49,14 @@ def show_all_pokemons(request):
             image_url = request.build_absolute_uri(pokemon.image.url)
         else:
             image_url =DEFAULT_IMAGE_URL
+        
+        try:
+            pokemon_entity = PokemonEntity.objects.filter(pokemon=pokemon).first()
+            if pokemon_entity:
+                coords = (pokemon_entity.latitude, pokemon_entity.longitude)
+        except PokemonEntity.DoesNotExist:
+            print('Нет координат')
 
-        coords = pokemon_coords.get(pokemon.id, 'None')
 
         add_pokemon(folium_map, coords[0], coords[1], image_url)
 
