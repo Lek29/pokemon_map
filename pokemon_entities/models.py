@@ -6,7 +6,7 @@ class Pokemon(models.Model):
     title_en = models.CharField(max_length=255, blank=True, null=True) 
     title_jp = models.CharField(max_length=255, blank=True, null=True) 
     description = models.TextField(blank=True, null=True)
-    privious_evolution = models.ForeignKey(
+    previous_evolution = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
         blank=True,
