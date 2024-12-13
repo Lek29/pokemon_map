@@ -77,6 +77,7 @@ def show_pokemon(request, pokemon_id):
     for pokemon_entity in active_pokemon_entities:
         image_url = request.build_absolute_uri(pokemon.image.url) if pokemon.image else DEFAULT_IMAGE_URL
         print(f"Image URL: {image_url}")
+
         add_pokemon(
             folium_map,
             pokemon_entity.latitude, 
@@ -84,6 +85,27 @@ def show_pokemon(request, pokemon_id):
             image_url
         )
 
+    evolution = {}
+
+    if pokemon.privious_evolution:
+        evolution['previous'] ={
+            'title_ru': pokemon.previous_evolution.title,
+            'pokemon_id': pokemon.privious_evolution.id,
+            'img_url' : request.build_absolute_uri(pokemon.privious_evolution.image.url) if
+            pokemon.privious_evolution.image else DEFAULT_IMAGE_URL,
+        }
+
+    next_evolutions = []
+
+    for next_evo in pokemon.next_evolutions_relation.all():
+        next_evolutions.append({
+            'title_ru': next_evo.title,
+            'pokemon_id': next_evo.id,
+            'img_url': request.build_absolute_uri(next_evo.image.url) if next_evo.image else DEFAULT_IMAGE_URL
+        })
+
+    if next_evolutions:
+        evolution['next'] = next_evolutions
 
     pokemons_specificarions={
         'pokemon_id': pokemon.id,
@@ -92,6 +114,7 @@ def show_pokemon(request, pokemon_id):
         'title_en' : pokemon.title_en,
         'title_jp' : pokemon.title_jp,
         'description': pokemon.description,
+        'evolution': evolution
     }
 
     return render(request, 'pokemon.html', context={
