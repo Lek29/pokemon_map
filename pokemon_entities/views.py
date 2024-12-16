@@ -76,7 +76,6 @@ def show_pokemon(request, pokemon_id):
 
     for pokemon_entity in active_pokemon_entities:
         image_url = request.build_absolute_uri(pokemon.image.url) if pokemon.image else DEFAULT_IMAGE_URL
-        print(f"Image URL: {image_url}")
 
         add_pokemon(
             folium_map,
