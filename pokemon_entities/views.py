@@ -97,7 +97,7 @@ def show_pokemon(request, pokemon_id):
 
     next_evolutions = []
 
-    for next_evo in pokemon.next_evolutions_relation.all():
+    for next_evo in pokemon.next_evolutions.all():
         next_evolutions.append({
             'title_ru': next_evo.title,
             'pokemon_id': next_evo.id,
